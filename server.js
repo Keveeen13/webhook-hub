@@ -4,7 +4,7 @@ const axios = require("axios");
 const bodyParser = require("body-parser");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 const GOOGLE_CHAT_WEBHOOK_URL = process.env.GOOGLE_CHAT_WEBHOOK_URL;
 const KOMMO_API_TOKEN = process.env.KOMMO_API_TOKEN;
@@ -128,6 +128,7 @@ async function getResponsibleUserName(userId) {
 app.post("/webhook-hub", async (req, res) => {
     try {
         const payload = req.body || {};
+        console.log("----- Inicio da Requisição -----");
         console.log("Payload bruto recebido:", JSON.stringify(payload, null, 2));
 
         const statusUpdateData = payload.leads?.status?.[0];
@@ -166,7 +167,9 @@ app.post("/webhook-hub", async (req, res) => {
         const leadResponse = await axios.get(
             `https://${KOMMO_SUBDOMAIN}.kommo.com/api/v4/leads/${leadId}?with=contacts`,
             {
-                headers: { Authorization: `Bearer ${KOMMO_API_TOKEN}` },
+                headers: {
+                    Authorization: `Bearer ${KOMMO_API_TOKEN}`
+                },
             }
         );
         const lead = leadResponse.data;
@@ -185,7 +188,9 @@ app.post("/webhook-hub", async (req, res) => {
             const contactResponse = await axios.get(
                 `https://${KOMMO_SUBDOMAIN}.kommo.com/api/v4/contacts/${primaryContactInfo.id}`,
                 {
-                    headers: { Authorization: `Bearer ${KOMMO_API_TOKEN}` },
+                    headers: {
+                        Authorization: `Bearer ${KOMMO_API_TOKEN}`
+                    },
                 }
             );
             const contactData = contactResponse.data;
@@ -209,7 +214,7 @@ app.post("/webhook-hub", async (req, res) => {
         const congratulationsMessage = isRenovacaoVendaGanhaAlvo ? "renovou o contrato" : "concluiu a venda";
 
         const messageText =
-        `*Olá! O lead ${leadName} ${congratulationsMessage}! Parabéns, ${responsibleUserName}!* 🥳
+        `Olá! O lead *${leadName}* ${congratulationsMessage}! Parabéns, *${responsibleUserName}*! 🥳
 
         *Nome:* ${leadName}
         *Valor:* R$ ${price.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -224,6 +229,7 @@ app.post("/webhook-hub", async (req, res) => {
         console.log(`Lead ${leadId}: Enviando mensagem para o Google Chat...`);
         await axios.post(GOOGLE_CHAT_WEBHOOK_URL, chatMessage);
         console.log(`Lead ${leadId}: Mensagem enviada com sucesso para o Google Chat.`);
+        console.log("----- Fim da Requisição -----");
 
         res.status(200).send("Mensagem enviada para o Google Chat!");
 
