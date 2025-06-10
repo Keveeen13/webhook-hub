@@ -168,7 +168,7 @@ app.post("/webhook-hub", async (req, res) => {
         if (isVendaGanhaComum || isRenovacaoVendaGanha) {
             targetWebhookUrl = GOOGLE_CHAT_WEBHOOK_URL_CELEBRAR;
             messageContext = {
-                action: isRenovacaoVendaGanha ? "renovou o contrato" : "concluiu a venda",
+                action: isRenovacaoVendaGanha ? "renovou o contrato" : "concluiu a assinatura",
                 type: 'celebration'
             };
         } else if (newStageName === ETAPA_PROPOSTA_ENVIADA) {
@@ -180,7 +180,7 @@ app.post("/webhook-hub", async (req, res) => {
         } else if (newStageName === ETAPA_EM_CONTRATO) {
             targetWebhookUrl = GOOGLE_CHAT_WEBHOOK_URL_CONTRATO;
             messageContext = {
-                action: "assinou o contrato",
+                action: "recebeu o contrato para assinatura",
                 type: 'notification'
             };
         }
