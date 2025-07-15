@@ -215,8 +215,8 @@ app.post("/webhook-hub", async (req, res) => {
         *Etapa anterior:* ${oldStageName}
         *Nova Etapa:* ${newStageName}
         *Valor:* R$ ${(lead.price || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-        *Unidade:* ${getCustomField(lead.custom_fields_values || [], "Unidade")}
-        *Planos:* ${getCustomField(lead.custom_fields_values || [], "Planos")}`;
+        *Unidade:* ${getCustomField(lead.custom_fields_values || [], "Unidade*")}
+        *Planos:* ${getCustomField(lead.custom_fields_values || [], "Planos*")}`;
 
         const chatMessage = { text: messageText };
 
