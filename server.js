@@ -34,7 +34,7 @@ const STATUS_RENOVACAO_VENDA_GANHA = {
 };
 
 const ETAPA_PROPOSTA_ENVIADA = "Proposta Enviada";
-const ETAPA_EM_CONTRATO = "Em Contrato";
+const ETAPA_EM_CONTRATO = "Em contrato";
 
 const RESPONSAVEIS = {
     "8535653": "Zíngara Farias",
