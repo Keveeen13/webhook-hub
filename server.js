@@ -33,8 +33,11 @@ const STATUS_RENOVACAO_VENDA_GANHA = {
   "9857964": "76096264", // Teste
 };
 
-const ETAPA_PROPOSTA_ENVIADA = "Proposta Enviada";
-const ETAPA_EM_CONTRATO = "Em contrato";
+const PROPOSTAS = process.env.ETAPAS_PROPOSTA || '';
+const ETAPA_PROPOSTA_ENVIADA = PROPOSTAS.split(',').map(etapa => etapa.trim());
+
+const CONTRATOS = process.env.ETAPAS_CONTRATO || '';
+const ETAPA_EM_CONTRATO = CONTRATOS.split(',').map(contrato => contrato.trim());
 
 const RESPONSAVEIS = {
     "8535653": "Zíngara Farias",
@@ -171,13 +174,13 @@ app.post("/webhook-hub", async (req, res) => {
                 action: isRenovacaoVendaGanha ? "renovou o contrato" : "concluiu a assinatura",
                 type: 'celebration'
             };
-        } else if (newStageName === ETAPA_PROPOSTA_ENVIADA) {
+        } else if (ETAPA_PROPOSTA_ENVIADA.includes(newStageName)) {
             targetWebhookUrl = GOOGLE_CHAT_WEBHOOK_URL_PROPOSTA;
             messageContext = {
                 action: "acabou de receber uma proposta",
                 type: 'notification'
             };
-        } else if (newStageName === ETAPA_EM_CONTRATO) {
+        } else if (ETAPA_EM_CONTRATO.includes(newStageName)) {
             targetWebhookUrl = GOOGLE_CHAT_WEBHOOK_URL_CONTRATO;
             messageContext = {
                 action: "recebeu o contrato para assinatura",
