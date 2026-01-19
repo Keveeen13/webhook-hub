@@ -41,7 +41,7 @@ const ETAPA_EM_CONTRATO = CONTRATOS.split(',').map(contrato => contrato.trim());
 
 const RESPONSAVEIS = {
     "8535653": "Zíngara Farias",
-    "8173676": "Cassya Serpa",
+    "8173676": "Milena Araújo",
     "8173679": "Dayana Alves",
     "8173685": "Cecilia Mousinho",
     "9640756": "Luiz Assis",
